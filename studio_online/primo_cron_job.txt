@@ -1,0 +1,1 @@
+ * * * * * /home/fabio/scripts/pg.sh > /dev/pts/2

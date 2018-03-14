@@ -1,0 +1,1 @@
+Managind PostgreSQL from bash

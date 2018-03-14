@@ -1,0 +1,18 @@
+ id |    valore    
+----+--------------
+  1 | valore1_tab1
+  2 | valore2_tab1
+  3 | valore3_tab1
+  4 | valore4_tab1
+  5 | val_vt1
+(5 rows)
+
+ id |    valore    
+----+--------------
+  1 | valore1_tab1
+  2 | valore2_tab1
+  3 | valore3_tab1
+  4 | valore4_tab1
+  5 | val_vt1
+(5 rows)
+

@@ -11,5 +11,5 @@ do
     echo $fname
     echo $nomefile
 #  psql service=$1
-  shp2pgsql -a -s 4326 -g geom $nomefile current_ba | psql -U postgres -d test_egeos
+  shp2pgsql -a -s 4326 -g geom $nomefile temp_ba | psql -U postgres -d test_egeos
 done
