@@ -1,23 +1,20 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="" version="2.18.16">
+<qgis projectname="" version="2.18.11">
   <title></title>
   <autotransaction active="0"/>
   <evaluateDefaultValues active="0"/>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Checked" id="modis_201020180312163453927" source="dbname='effis' host=localhost port=5432 user='postgres' sslmode=disable key='modis_id' srid=4326 type=Point table=&quot;modis_viirs&quot;.&quot;modis_2010&quot; (geom) sql=" name="modis_2010">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181201_MODA_BA_WGS8420180315162140335" source="E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\data\20181201_MODA_BA_WGS84.shp" name="20181201_MODA_BA_WGS84">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="hotspots20180312142657492" source="dbname='effis' host=localhost port=5432 user='postgres' sslmode=disable key='id' srid=4326 type=MultiPoint table=&quot;effis&quot;.&quot;hotspots&quot; (geom) sql=" name="hotspots">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181202_MODA_BA_WGS8420180315162140365" source="E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\data\20181202_MODA_BA_WGS84.shp" name="20181202_MODA_BA_WGS84">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="20181203_MODA_BA_WGS8420180302124444358" source="/media/sf_Downloads/__effis/effis_ubuntu/dati_test_shp/simulazione_egeos/20181203_MODA_BA_WGS84.shp" name="20181203_MODA_BA_WGS84">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181203_MODA_BA_WGS8420180315162140367" source="E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\data\20181203_MODA_BA_WGS84.shp" name="20181203_MODA_BA_WGS84">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="20181202_MODA_BA_WGS8420180302124444409" source="/media/sf_Downloads/__effis/effis_ubuntu/dati_test_shp/simulazione_egeos/20181202_MODA_BA_WGS84.shp" name="20181202_MODA_BA_WGS84">
-      <customproperties/>
-    </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Unchecked" id="20181201_MODA_BA_WGS8420180302124444454" source="/media/sf_Downloads/__effis/effis_ubuntu/dati_test_shp/simulazione_egeos/20181201_MODA_BA_WGS84.shp" name="20181201_MODA_BA_WGS84">
+    <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="active_areas_200420180313125206497" source="dbname='e1gwis' host=h05-srv-dbp96.jrc.it port=5432 user='e1gwis' sslmode=disable key='ogc_fid' srid=4326 type=MultiPolygon table=&quot;nasa_modis_ba&quot;.&quot;active_areas_2004&quot; (wkb_geometry) sql=" name="active_areas_2004">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="admin_level_220180228160219555" source="dbname='e1gwis' host=h05-srv-dbp96.jrc.it port=5432 user='e1gwis' sslmode=disable key='id' srid=4326 type=MultiPolygon table=&quot;public&quot;.&quot;admin_level_2&quot; (geom) sql=" name="admin_level_2">
@@ -31,10 +28,10 @@
   <mapcanvas>
     <units>degrees</units>
     <extent>
-      <xmin>-2.06091099545943912</xmin>
-      <ymin>42.70451023061369966</ymin>
-      <xmax>-0.51607386934487143</xmax>
-      <ymax>43.42078626569662703</ymax>
+      <xmin>-22.20593285560605779</xmin>
+      <ymin>23.17343702316289011</ymin>
+      <xmax>68.18025803565976162</xmax>
+      <ymax>67.2632351875305261</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>0</projections>
@@ -57,37 +54,31 @@
     <custom-order enabled="0">
       <item>admin_level_020180228160149272</item>
       <item>admin_level_220180228160219555</item>
-      <item>20181203_MODA_BA_WGS8420180302124444358</item>
-      <item>20181202_MODA_BA_WGS8420180302124444409</item>
-      <item>20181201_MODA_BA_WGS8420180302124444454</item>
-      <item>hotspots20180312142657492</item>
-      <item>modis_201020180312163453927</item>
+      <item>active_areas_200420180313125206497</item>
+      <item>20181201_MODA_BA_WGS8420180315162140335</item>
+      <item>20181202_MODA_BA_WGS8420180315162140365</item>
+      <item>20181203_MODA_BA_WGS8420180315162140367</item>
     </custom-order>
   </layer-tree-canvas>
   <legend updateDrawingOrder="true">
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="modis_2010" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="20181201_MODA_BA_WGS84" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="modis_201020180312163453927" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="20181201_MODA_BA_WGS8420180315162140335" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="hotspots" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="20181202_MODA_BA_WGS84" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="hotspots20180312142657492" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="20181202_MODA_BA_WGS8420180315162140365" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="20181203_MODA_BA_WGS84" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="20181203_MODA_BA_WGS84" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="20181203_MODA_BA_WGS8420180302124444358" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="20181203_MODA_BA_WGS8420180315162140367" visible="1"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="20181202_MODA_BA_WGS84" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="active_areas_2004" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="20181202_MODA_BA_WGS8420180302124444409" visible="0"/>
-      </filegroup>
-    </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="20181201_MODA_BA_WGS84" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="20181201_MODA_BA_WGS8420180302124444454" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="active_areas_200420180313125206497" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="admin_level_2" showFeatureCount="0">
@@ -103,8 +94,8 @@
   </legend>
   <projectlayers>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-      <id>20181201_MODA_BA_WGS8420180302124444454</id>
-      <datasource>./20181201_MODA_BA_WGS84.shp</datasource>
+      <id>20181201_MODA_BA_WGS8420180315162140335</id>
+      <datasource>../data/20181201_MODA_BA_WGS84.shp</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -121,7 +112,7 @@
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="System">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
@@ -144,7 +135,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="129,158,172,255"/>
+              <prop k="color" v="228,164,189,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -169,7 +160,7 @@
       <label>0</label>
       <labelattributes>
         <label fieldname="" text="Label"/>
-        <family fieldname="" name="Noto Sans"/>
+        <family fieldname="" name="MS Shell Dlg 2"/>
         <size fieldname="" units="pt" value="12"/>
         <bold fieldname="" on="0"/>
         <italic fieldname="" on="0"/>
@@ -187,7 +178,7 @@
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform>.</annotationform>
+      <annotationform></annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
         <alias field="firedate" index="1" name=""/>
@@ -196,13 +187,13 @@
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="853737864">
         <columns/>
       </attributetableconfig>
-      <editform>.</editform>
+      <editform></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath>.</editforminitfilepath>
+      <editforminitfilepath></editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -219,8 +210,8 @@
       <previewExpression></previewExpression>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-      <id>20181202_MODA_BA_WGS8420180302124444409</id>
-      <datasource>./20181202_MODA_BA_WGS84.shp</datasource>
+      <id>20181202_MODA_BA_WGS8420180315162140365</id>
+      <datasource>../data/20181202_MODA_BA_WGS84.shp</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -237,7 +228,7 @@
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="System">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
@@ -260,7 +251,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="223,91,150,255"/>
+              <prop k="color" v="45,168,184,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -285,7 +276,7 @@
       <label>0</label>
       <labelattributes>
         <label fieldname="" text="Label"/>
-        <family fieldname="" name="Noto Sans"/>
+        <family fieldname="" name="MS Shell Dlg 2"/>
         <size fieldname="" units="pt" value="12"/>
         <bold fieldname="" on="0"/>
         <italic fieldname="" on="0"/>
@@ -303,7 +294,7 @@
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform>.</annotationform>
+      <annotationform></annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
         <alias field="firedate" index="1" name=""/>
@@ -312,13 +303,13 @@
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="790419752">
         <columns/>
       </attributetableconfig>
-      <editform>.</editform>
+      <editform></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath>.</editforminitfilepath>
+      <editforminitfilepath></editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -335,14 +326,8 @@
       <previewExpression></previewExpression>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-      <extent>
-        <xmin>12.42312775844688844</xmin>
-        <ymin>41.85275776310189855</ymin>
-        <xmax>12.72025864395000916</xmax>
-        <ymax>42.14462232741212944</ymax>
-      </extent>
-      <id>20181203_MODA_BA_WGS8420180302124444358</id>
-      <datasource>./20181203_MODA_BA_WGS84.shp</datasource>
+      <id>20181203_MODA_BA_WGS8420180315162140367</id>
+      <datasource>../data/20181203_MODA_BA_WGS84.shp</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -359,7 +344,7 @@
           <geographicflag>true</geographicflag>
         </spatialrefsys>
       </srs>
-      <provider encoding="UTF-8">ogr</provider>
+      <provider encoding="System">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
@@ -382,7 +367,7 @@
           <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
             <layer pass="0" class="SimpleFill" locked="0">
               <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="color" v="3,142,166,255"/>
+              <prop k="color" v="211,37,185,255"/>
               <prop k="joinstyle" v="bevel"/>
               <prop k="offset" v="0,0"/>
               <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
@@ -407,6 +392,122 @@
       <label>0</label>
       <labelattributes>
         <label fieldname="" text="Label"/>
+        <family fieldname="" name="MS Shell Dlg 2"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <annotationform></annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="firedate" index="1" name=""/>
+        <alias field="area_ha" index="2" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="158">
+        <columns/>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="firedate" expression=""/>
+        <default field="area_ha" expression=""/>
+      </defaults>
+      <previewExpression></previewExpression>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>active_areas_200420180313125206497</id>
+      <datasource>dbname='e1gwis' host=h05-srv-dbp96.jrc.it port=5432 user='e1gwis' password='ka4Zie4i' sslmode=disable key='ogc_fid' srid=4326 type=MultiPolygon table="nasa_modis_ba"."active_areas_2004" (wkb_geometry) sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>active_areas_2004</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="ogc_fid">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="burndate">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+            <layer pass="0" class="SimpleFill" locked="0">
+              <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="color" v="116,187,0,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>ogc_fid</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
         <family fieldname="" name="Noto Sans"/>
         <size fieldname="" units="pt" value="12"/>
         <bold fieldname="" on="0"/>
@@ -427,9 +528,9 @@
       </labelattributes>
       <annotationform>.</annotationform>
       <aliases>
-        <alias field="id" index="0" name=""/>
-        <alias field="firedate" index="1" name=""/>
-        <alias field="area_ha" index="2" name=""/>
+        <alias field="ogc_fid" index="0" name=""/>
+        <alias field="id" index="1" name=""/>
+        <alias field="burndate" index="2" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
@@ -450,9 +551,9 @@
         <fieldstyles/>
       </conditionalstyles>
       <defaults>
+        <default field="ogc_fid" expression=""/>
         <default field="id" expression=""/>
-        <default field="firedate" expression=""/>
-        <default field="area_ha" expression=""/>
+        <default field="burndate" expression=""/>
       </defaults>
       <previewExpression></previewExpression>
     </maplayer>
@@ -774,384 +875,6 @@
       </defaults>
       <previewExpression></previewExpression>
     </maplayer>
-    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-      <id>hotspots20180312142657492</id>
-      <datasource>dbname='effis' host=localhost port=5432 user='postgres' password='antarone' sslmode=disable key='id' srid=4326 type=MultiPoint table="effis"."hotspots" (geom) sql=</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>hotspots</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-          <srsid>3452</srsid>
-          <srid>4326</srid>
-          <authid>EPSG:4326</authid>
-          <description>WGS 84</description>
-          <projectionacronym>longlat</projectionacronym>
-          <ellipsoidacronym>WGS84</ellipsoidacronym>
-          <geographicflag>true</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <provider encoding="UTF-8">postgres</provider>
-      <vectorjoins/>
-      <layerDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="">
-        <map-layer-style name=""/>
-      </map-layer-style-manager>
-      <edittypes>
-        <edittype widgetv2type="TextEdit" name="id">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="gid">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="objectid">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="lea_longitude">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="lea_latitude">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="fp_confidence">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="fp_t21">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="fp_t31">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="fp_power">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="file_name">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="hs_date">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="hs_time">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="t_a">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="code_00">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="iso2">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-      </edittypes>
-      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
-        <symbols>
-          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
-            <layer pass="0" class="SimpleMarker" locked="0">
-              <prop k="angle" v="0"/>
-              <prop k="color" v="71,235,73,255"/>
-              <prop k="horizontal_anchor_point" v="1"/>
-              <prop k="joinstyle" v="bevel"/>
-              <prop k="name" v="circle"/>
-              <prop k="offset" v="0,0"/>
-              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="offset_unit" v="MM"/>
-              <prop k="outline_color" v="0,0,0,255"/>
-              <prop k="outline_style" v="solid"/>
-              <prop k="outline_width" v="0"/>
-              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="outline_width_unit" v="MM"/>
-              <prop k="scale_method" v="diameter"/>
-              <prop k="size" v="2"/>
-              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="size_unit" v="MM"/>
-              <prop k="vertical_anchor_point" v="1"/>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale scalemethod="diameter"/>
-      </renderer-v2>
-      <labeling type="simple"/>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerTransparency>0</layerTransparency>
-      <displayfield>file_name</displayfield>
-      <label>0</label>
-      <labelattributes>
-        <label fieldname="" text="Label"/>
-        <family fieldname="" name="Noto Sans"/>
-        <size fieldname="" units="pt" value="12"/>
-        <bold fieldname="" on="0"/>
-        <italic fieldname="" on="0"/>
-        <underline fieldname="" on="0"/>
-        <strikeout fieldname="" on="0"/>
-        <color fieldname="" red="0" blue="0" green="0"/>
-        <x fieldname=""/>
-        <y fieldname=""/>
-        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-        <angle fieldname="" value="0" auto="0"/>
-        <alignment fieldname="" value="center"/>
-        <buffercolor fieldname="" red="255" blue="255" green="255"/>
-        <buffersize fieldname="" units="pt" value="1"/>
-        <bufferenabled fieldname="" on=""/>
-        <multilineenabled fieldname="" on=""/>
-        <selectedonly on=""/>
-      </labelattributes>
-      <annotationform>.</annotationform>
-      <aliases>
-        <alias field="id" index="0" name=""/>
-        <alias field="gid" index="1" name=""/>
-        <alias field="objectid" index="2" name=""/>
-        <alias field="lea_longitude" index="3" name=""/>
-        <alias field="lea_latitude" index="4" name=""/>
-        <alias field="fp_confidence" index="5" name=""/>
-        <alias field="fp_t21" index="6" name=""/>
-        <alias field="fp_t31" index="7" name=""/>
-        <alias field="fp_power" index="8" name=""/>
-        <alias field="file_name" index="9" name=""/>
-        <alias field="hs_date" index="10" name=""/>
-        <alias field="hs_time" index="11" name=""/>
-        <alias field="t_a" index="12" name=""/>
-        <alias field="code_00" index="13" name=""/>
-        <alias field="iso2" index="14" name=""/>
-      </aliases>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
-        <columns>
-          <column width="-1" hidden="0" type="field" name="id"/>
-          <column width="-1" hidden="0" type="field" name="gid"/>
-          <column width="-1" hidden="0" type="field" name="objectid"/>
-          <column width="-1" hidden="0" type="field" name="lea_longitude"/>
-          <column width="-1" hidden="0" type="field" name="lea_latitude"/>
-          <column width="-1" hidden="0" type="field" name="fp_confidence"/>
-          <column width="-1" hidden="0" type="field" name="fp_t21"/>
-          <column width="-1" hidden="0" type="field" name="fp_t31"/>
-          <column width="-1" hidden="0" type="field" name="fp_power"/>
-          <column width="-1" hidden="0" type="field" name="file_name"/>
-          <column width="-1" hidden="0" type="field" name="hs_date"/>
-          <column width="-1" hidden="0" type="field" name="hs_time"/>
-          <column width="-1" hidden="0" type="field" name="t_a"/>
-          <column width="-1" hidden="0" type="field" name="code_00"/>
-          <column width="-1" hidden="0" type="field" name="iso2"/>
-          <column width="-1" hidden="1" type="actions"/>
-        </columns>
-      </attributetableconfig>
-      <editform>.</editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath>.</editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <defaults>
-        <default field="id" expression=""/>
-        <default field="gid" expression=""/>
-        <default field="objectid" expression=""/>
-        <default field="lea_longitude" expression=""/>
-        <default field="lea_latitude" expression=""/>
-        <default field="fp_confidence" expression=""/>
-        <default field="fp_t21" expression=""/>
-        <default field="fp_t31" expression=""/>
-        <default field="fp_power" expression=""/>
-        <default field="file_name" expression=""/>
-        <default field="hs_date" expression=""/>
-        <default field="hs_time" expression=""/>
-        <default field="t_a" expression=""/>
-        <default field="code_00" expression=""/>
-        <default field="iso2" expression=""/>
-      </defaults>
-      <previewExpression>COALESCE( "file_name", '&lt;NULL>' )</previewExpression>
-    </maplayer>
-    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Point" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-      <id>modis_201020180312163453927</id>
-      <datasource>dbname='effis' host=localhost port=5432 user='postgres' password='antarone' sslmode=disable key='modis_id' srid=4326 type=Point table="modis_viirs"."modis_2010" (geom) sql=</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>modis_2010</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-          <srsid>3452</srsid>
-          <srid>4326</srid>
-          <authid>EPSG:4326</authid>
-          <description>WGS 84</description>
-          <projectionacronym>longlat</projectionacronym>
-          <ellipsoidacronym>WGS84</ellipsoidacronym>
-          <geographicflag>true</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <provider encoding="UTF-8">postgres</provider>
-      <vectorjoins/>
-      <layerDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="">
-        <map-layer-style name=""/>
-      </map-layer-style-manager>
-      <edittypes>
-        <edittype widgetv2type="TextEdit" name="modis_id">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="latitude">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="longitude">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="brightness">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="scan">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="track">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="acq_date">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="acq_time">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="satellite">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="instrument">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="confidence">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="version">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="bright_t31">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="frp">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-      </edittypes>
-      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
-        <symbols>
-          <symbol alpha="1" clip_to_extent="1" type="marker" name="0">
-            <layer pass="0" class="SimpleMarker" locked="0">
-              <prop k="angle" v="0"/>
-              <prop k="color" v="184,114,44,255"/>
-              <prop k="horizontal_anchor_point" v="1"/>
-              <prop k="joinstyle" v="bevel"/>
-              <prop k="name" v="circle"/>
-              <prop k="offset" v="0,0"/>
-              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="offset_unit" v="MM"/>
-              <prop k="outline_color" v="0,0,0,255"/>
-              <prop k="outline_style" v="solid"/>
-              <prop k="outline_width" v="0"/>
-              <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="outline_width_unit" v="MM"/>
-              <prop k="scale_method" v="diameter"/>
-              <prop k="size" v="2"/>
-              <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="size_unit" v="MM"/>
-              <prop k="vertical_anchor_point" v="1"/>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale scalemethod="diameter"/>
-      </renderer-v2>
-      <labeling type="simple"/>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerTransparency>0</layerTransparency>
-      <displayfield>modis_id</displayfield>
-      <label>0</label>
-      <labelattributes>
-        <label fieldname="" text="Label"/>
-        <family fieldname="" name="Noto Sans"/>
-        <size fieldname="" units="pt" value="12"/>
-        <bold fieldname="" on="0"/>
-        <italic fieldname="" on="0"/>
-        <underline fieldname="" on="0"/>
-        <strikeout fieldname="" on="0"/>
-        <color fieldname="" red="0" blue="0" green="0"/>
-        <x fieldname=""/>
-        <y fieldname=""/>
-        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-        <angle fieldname="" value="0" auto="0"/>
-        <alignment fieldname="" value="center"/>
-        <buffercolor fieldname="" red="255" blue="255" green="255"/>
-        <buffersize fieldname="" units="pt" value="1"/>
-        <bufferenabled fieldname="" on=""/>
-        <multilineenabled fieldname="" on=""/>
-        <selectedonly on=""/>
-      </labelattributes>
-      <annotationform></annotationform>
-      <aliases>
-        <alias field="modis_id" index="0" name=""/>
-        <alias field="latitude" index="1" name=""/>
-        <alias field="longitude" index="2" name=""/>
-        <alias field="brightness" index="3" name=""/>
-        <alias field="scan" index="4" name=""/>
-        <alias field="track" index="5" name=""/>
-        <alias field="acq_date" index="6" name=""/>
-        <alias field="acq_time" index="7" name=""/>
-        <alias field="satellite" index="8" name=""/>
-        <alias field="instrument" index="9" name=""/>
-        <alias field="confidence" index="10" name=""/>
-        <alias field="version" index="11" name=""/>
-        <alias field="bright_t31" index="12" name=""/>
-        <alias field="frp" index="13" name=""/>
-      </aliases>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="2083552304">
-        <columns/>
-      </attributetableconfig>
-      <editform></editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <defaults>
-        <default field="modis_id" expression=""/>
-        <default field="latitude" expression=""/>
-        <default field="longitude" expression=""/>
-        <default field="brightness" expression=""/>
-        <default field="scan" expression=""/>
-        <default field="track" expression=""/>
-        <default field="acq_date" expression=""/>
-        <default field="acq_time" expression=""/>
-        <default field="satellite" expression=""/>
-        <default field="instrument" expression=""/>
-        <default field="confidence" expression=""/>
-        <default field="version" expression=""/>
-        <default field="bright_t31" expression=""/>
-        <default field="frp" expression=""/>
-      </defaults>
-      <previewExpression></previewExpression>
-    </maplayer>
   </projectlayers>
   <properties>
     <Variables>
@@ -1163,8 +886,8 @@
       </variableNames>
       <variableValues type="QStringList">
         <value>days.qgs</value>
-        <value>E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos</value>
-        <value>E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\days.qgs</value>
+        <value>E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\ancillary</value>
+        <value>E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\ancillary\days.qgs</value>
         <value></value>
       </variableValues>
     </Variables>
@@ -1209,8 +932,10 @@
         <value>admin_level_020180228160149272</value>
         <value>admin_level_220180228160219555</value>
         <value>hotspots20180312142657492</value>
+        <value>modis_201020180312163453927</value>
       </LayerSnappingList>
       <LayerSnappingEnabledList type="QStringList">
+        <value>disabled</value>
         <value>disabled</value>
         <value>disabled</value>
         <value>disabled</value>
@@ -1227,8 +952,10 @@
         <value>2</value>
         <value>2</value>
         <value>2</value>
+        <value>2</value>
       </LayerSnappingToleranceUnitList>
       <LayerSnapToList type="QStringList">
+        <value>to_vertex_and_segment</value>
         <value>to_vertex_and_segment</value>
         <value>to_vertex_and_segment</value>
         <value>to_vertex_and_segment</value>
@@ -1239,6 +966,7 @@
       <DefaultSnapType type="QString">off</DefaultSnapType>
       <DefaultSnapTolerance type="double">0</DefaultSnapTolerance>
       <LayerSnappingToleranceList type="QStringList">
+        <value>0.000000</value>
         <value>0.000000</value>
         <value>0.000000</value>
         <value>0.000000</value>
