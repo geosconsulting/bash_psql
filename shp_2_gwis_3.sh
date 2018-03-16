@@ -1,7 +1,6 @@
 #!/bin/bash
 
-set -e 
-set -u
+day=$1
 
 ftp_dir="data/"
 filetype="*.shp"
@@ -11,10 +10,7 @@ DB_HOST=localhost
 DB_NAME=test_egeos
 DB_USER=postgres
 
-#RUN_ON_DB="$PSQL -X -U $DB_USER -h $DB_HOST --set ON_ERROR_STOP=on --set AUTOCOMMIT=off $DB_NAME"
-#already_in=$($PSQL -X -U $DB_USER -h $DB_HOST -P t -P format=unaligned $DB_NAME -c "SELECT COUNT(shp_id) FROM processed_data WHERE filename='$fname'")
-
-RUN_ON_DB="$PSQL -X -U $DB_USER -h $DB_HOST -d $DB_NAME -P t"
+#RUN_ON_DB="$PSQL -X -U $DB_USER -h $DBHOST -d $DB_NAME"
 
 manage_shapefiles(){
 for nomefile in $ftp_dir$filetype
@@ -29,22 +25,21 @@ do
           echo $nomefile  
           ./get_contained_ba.sh $nomefile 
     else        
+        already_in=$($PSQL -X -U $DB_USER -h $DB_HOST -P t -P format=unaligned $DB_NAME -c "SELECT COUNT(shp_id) FROM processed_data WHERE filename='$fname'")
         
-        already_in=$($RUN_ON_DB -c "SELECT COUNT(shp_id) FROM processed_data WHERE filename='$fname'")
-
         if [ $already_in == 0 ]; then
             file_date=$(echo $fbname | awk -F'_' '{print $1}')
             sensor=$(echo $fbname | awk -F'_' '{print $2}')
             data_type=$(echo $fbname | awk -F'_' '{print $3}')
              
-            echo "file date: $file_date, sensor: $sensot, data_type: $data_type"               
+            #echo "file date: $file_date, sensor: $sensot, data_type: $data_type"               
               
-            $RUN_ON_DB -c "INSERT INTO processed_data(filename,data_date,data_type,sensor) \
-                           VALUES('$fname',to_date('$file_date','YYYYMMDD'),'$sensor','$data_type')" 
-
+            $PSQL -X -U $DB_USER -h $DB_HOST -d $DB_NAME -c "INSERT INTO processed_data(filename,data_date,data_type,sensor) \
+                                                             VALUES('$fname',to_date('$file_date','YYYYMMDD'),'$sensor','$data_type')" 
+        
             shp2pgsql -a -s 4326 -g geom $nomefile temp_ba | psql -U postgres -d test_egeos
         else
-            echo "$fname already processed. Cannot be repocessed with the same filename"
+            echo "Already processed. Cannot be repocessed with the same filename"
         fi
     fi
 done
@@ -54,17 +49,17 @@ truncate_tables(){
     lista_tabelle=( temp_ba current_ba processed_data evolution_ba )  
     for tabella in "${lista_tabelle[@]}"
     do
-       $RUN_ON_DB -c "TRUNCATE $tabella" 
+    psql -U $DB_USER -d $DB_NAME -c "TRUNCATE $tabella" 
     done
 }
 
 truncate_table(){
-    $RUN_ON_DB -c "TRUNCATE $1" 
+    psql -U $DB_USER -d $DB_NAME -c "TRUNCATE $1" 
 }
 
 check_id_current_ba(){
 
-CURRENT_ID=$($RUN_ON_DB -c "select max(id) from current_ba")
+CURRENT_ID=$($PSQL -X -U $DB_USER -h $DB_HOST -P t -P format=unaligned $DB_NAME -c "select max(id) from current_ba")
 let NEXT_ID=CURRENT_ID+1
 
 echo "Next id for burnt areas is $NEXT_ID"
@@ -101,6 +96,9 @@ $PSQL \
 
 current_evolution_bas(){
 
+set -e
+set -u
+
 $PSQL \
      -X \
      -U $DB_USER \
@@ -128,6 +126,9 @@ $PSQL \
 
 no_evolution_bas(){
 
+set -e
+set -u
+
 $PSQL \
      -X \
      -U $DB_USER \
@@ -152,14 +153,13 @@ $PSQL \
 }
 
 
-declare -a choices=("Shapefile Metadata")
-#choices[${#choices[*]}]="Shapefile Metadata" 
+declare -a choices
+choices[${#choices[*]}]="Shapefile Metadata" 
 choices[${#choices[*]}]="Current Burnt Areas"
 choices[${#choices[*]}]="Evolution Burnt Areas"
 choices[${#choices[*]}]="One Day Burnt Areas No Evolution" 
 choices[${#choices[*]}]="Empty Tables"
 choices[${#choices[*]}]="Upload Shape"
-choices[${#choices[*]}]="Last ID Current BurntArea"
 choices[${#choices[*]}]="List of Options"
 choices[${#choices[*]}]="Quit"
 #choices+=( "Current Burnt Areas" "Empty Tables" "Upload Shape" "Quit" )
@@ -184,8 +184,6 @@ do
         ${choices[5]})
             manage_shapefiles 2 ;;
         ${choices[6]})
-           check_id_current_ba ;;
-        ${choices[7]})
              break ;;
         *) echo "Exiting...."
             exit ;;

@@ -3,10 +3,12 @@
 set -e
 set -u
 
-RUN_ON_MYDB="psql -X -U postgres -h localhost --set ON_ERROR_STOP=on --set AUTOCOMMIT=off test_egeos"
+DB_NAME=test_egeos
+
+RUN_ON_MYDB="psql -X -U postgres -h localhost --set ON_ERROR_STOP=on --set AUTOCOMMIT=off $DB_NAME"
 
 $RUN_ON_MYDB <<SQL
-drop table my_new_table;
+drop table if exists my_new_table;
 create table my_new_table (like current_ba);
 commit;
 SQL
