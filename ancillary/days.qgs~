@@ -28,10 +28,10 @@
   <mapcanvas>
     <units>degrees</units>
     <extent>
-      <xmin>-22.20593285560605779</xmin>
-      <ymin>23.17343702316289011</ymin>
-      <xmax>68.18025803565976162</xmax>
-      <ymax>67.2632351875305261</ymax>
+      <xmin>12.50153227813430235</xmin>
+      <ymin>41.633202279881246</ymin>
+      <xmax>12.79534184614709247</xmax>
+      <ymax>42.23359574495084701</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>0</projections>
@@ -94,6 +94,12 @@
   </legend>
   <projectlayers>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <extent>
+        <xmin>12.33490663691983436</xmin>
+        <ymin>41.82222259439600975</ymin>
+        <xmax>12.36988396644516719</xmax>
+        <ymax>41.89369800690430168</ymax>
+      </extent>
       <id>20181201_MODA_BA_WGS8420180315162140335</id>
       <datasource>../data/20181201_MODA_BA_WGS84.shp</datasource>
       <keywordList>

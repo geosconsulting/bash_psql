@@ -5,13 +5,13 @@
   <evaluateDefaultValues active="0"/>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181201_MODA_BA_WGS8420180315162140335" source="E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\data\20181201_MODA_BA_WGS84.shp" name="20181201_MODA_BA_WGS84">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181201_MODA_BA_WGS8420180315162140335" source="E:/lanalfa/Documents/Downloads/__effis/effis_ubuntu/dati_test_shp/simulazione_egeos/data/20181201_MODA_BA_WGS84.shp" name="20181201_MODA_BA_WGS84">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181202_MODA_BA_WGS8420180315162140365" source="E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\data\20181202_MODA_BA_WGS84.shp" name="20181202_MODA_BA_WGS84">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181202_MODA_BA_WGS8420180315162140365" source="E:/lanalfa/Documents/Downloads/__effis/effis_ubuntu/dati_test_shp/simulazione_egeos/data/20181202_MODA_BA_WGS84.shp" name="20181202_MODA_BA_WGS84">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181203_MODA_BA_WGS8420180315162140367" source="E:\lanalfa\Documents\Downloads\__effis\effis_ubuntu\dati_test_shp\simulazione_egeos\data\20181203_MODA_BA_WGS84.shp" name="20181203_MODA_BA_WGS84">
+    <layer-tree-layer expanded="1" providerKey="ogr" checked="Qt::Checked" id="20181203_MODA_BA_WGS8420180315162140367" source="E:/lanalfa/Documents/Downloads/__effis/effis_ubuntu/dati_test_shp/simulazione_egeos/data/20181203_MODA_BA_WGS84.shp" name="20181203_MODA_BA_WGS84">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" providerKey="postgres" checked="Qt::Unchecked" id="active_areas_200420180313125206497" source="dbname='e1gwis' host=h05-srv-dbp96.jrc.it port=5432 user='e1gwis' sslmode=disable key='ogc_fid' srid=4326 type=MultiPolygon table=&quot;nasa_modis_ba&quot;.&quot;active_areas_2004&quot; (wkb_geometry) sql=" name="active_areas_2004">
@@ -184,7 +184,7 @@
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
         <alias field="firedate" index="1" name=""/>
@@ -193,13 +193,18 @@
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="853737864">
-        <columns/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="firedate"/>
+          <column width="-1" hidden="0" type="field" name="area_ha"/>
+          <column width="-1" hidden="1" type="actions"/>
+        </columns>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -213,7 +218,7 @@
         <default field="firedate" expression=""/>
         <default field="area_ha" expression=""/>
       </defaults>
-      <previewExpression></previewExpression>
+      <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20181202_MODA_BA_WGS8420180315162140365</id>
@@ -300,7 +305,7 @@
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
         <alias field="firedate" index="1" name=""/>
@@ -309,13 +314,18 @@
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="790419752">
-        <columns/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="firedate"/>
+          <column width="-1" hidden="0" type="field" name="area_ha"/>
+          <column width="-1" hidden="1" type="actions"/>
+        </columns>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -329,7 +339,7 @@
         <default field="firedate" expression=""/>
         <default field="area_ha" expression=""/>
       </defaults>
-      <previewExpression></previewExpression>
+      <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>20181203_MODA_BA_WGS8420180315162140367</id>
@@ -416,7 +426,7 @@
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
       <aliases>
         <alias field="id" index="0" name=""/>
         <alias field="firedate" index="1" name=""/>
@@ -425,13 +435,18 @@
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="158">
-        <columns/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="firedate"/>
+          <column width="-1" hidden="0" type="field" name="area_ha"/>
+          <column width="-1" hidden="1" type="actions"/>
+        </columns>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -445,7 +460,7 @@
         <default field="firedate" expression=""/>
         <default field="area_ha" expression=""/>
       </defaults>
-      <previewExpression></previewExpression>
+      <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
     </maplayer>
     <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" readOnly="0" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>active_areas_200420180313125206497</id>
