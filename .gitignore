@@ -1,0 +1,4 @@
+conf_pg_backup/
+GRASSDATA/
+pg_npm/
+pgAdmin4.py

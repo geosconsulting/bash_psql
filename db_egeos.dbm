@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1-alpha" author="Fabio Lana" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="effis_egeos" template="postgis">
+	<role name="postgres"/>
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="active_fires">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Delivered 4 times a day]]></comment>
+	<position x="500" y="100"/>
+	<column name="active_fire_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="lat">
+		<type name="float8" length="0"/>
+		<comment><![CDATA[geographic coordinates of the active fire pixel(s)]]></comment>
+	</column>
+	<column name="lon">
+		<type name="float8" length="0"/>
+		<comment><![CDATA[geographic coordinates of the active fire pixel(s)]]></comment>
+	</column>
+	<column name="geom">
+		<type name="geometry" length="0" spatial-type="POINT" variation="0" srid="4326"/>
+	</column>
+	<column name="frp">
+		<type name="float8" length="0"/>
+		<comment><![CDATA[Fire Radiative Power (FRP). FRP still in development for except of FY-3; FRP for Sentinel-3 may
+be included as further development if the JRC asks for it)]]></comment>
+	</column>
+	<column name="sensor">
+		<type name="integer" length="5"/>
+	</column>
+	<column name="fire_date">
+		<type name="date" length="0"/>
+		<comment><![CDATA[date of active fire observation]]></comment>
+	</column>
+	<column name="fire_time">
+		<type name="timestamptz" length="0"/>
+		<comment><![CDATA[time of active fire observation]]></comment>
+	</column>
+	<column name="confidence">
+		<type name="float8" length="0"/>
+	</column>
+	<constraint name="active_fires_pk" type="pk-constr" table="public.active_fires">
+		<columns names="active_fire_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<textbox name="Data delivery frequence" font-size="9">
+	<position x="20" y="40"/>
+	<comment><![CDATA[4 times a day
+1 dataset (modis active fires)
+
+twice a day
+2 dataset  (viirs active fires/ modis burnt areas)
+
+once a day
+1 mandatory dataset (viirs burnt areas)
+4 optional datasets (Feng Yun,Landsat-8 active fires
+                                 Oceansat-2, Feng Yun-3 burned areas)
+
+
+Every 8 days
+1 dataset (Sentinel-2/Landsat-8 Burned areas - High resolution)
+
+Whenever available
+1 mandatory dataset (Sentinel-3 - Burnt areas)
+1 optional dataset (Sentinel-3 active fires)]]></comment>
+</textbox>
+
+<table name="sensors">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="940" y="20"/>
+	<column name="sensor_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="sensor_name">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="abbreviation">
+		<type name="varchar" length="5"/>
+	</column>
+	<constraint name="sensors_pk" type="pk-constr" table="public.sensors">
+		<columns names="sensor_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="active_fires_id_idx" table="public.active_fires"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="false">
+			<column name="active_fire_id"/>
+		</idxelement>
+</index>
+
+<constraint name="active_fires_sensor_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.sensors" table="public.active_fires">
+	<columns names="active_fire_id" ref-type="src-columns"/>
+	<columns names="sensor_id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_active_fires_sensors" type="relfk"
+	 src-table="public.active_fires"
+	 dst-table="public.sensors"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
