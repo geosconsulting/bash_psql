@@ -1,0 +1,1 @@
+ * * * * * /home/fabio/scripts/pg.sh > /dev/null 2>> /home/fabio/scripts/log_cron.log
