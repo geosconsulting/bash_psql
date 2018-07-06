@@ -8,52 +8,69 @@ NC='\033[0m'
 
 server=${1-e}
 
-#if [[ "$#" -eq 0 ]]; then
-   #statements
-   #printf "Which Server?(${RED}i${NC}nternal, ${RED}e${NC}xternal)\n"
-   #exit 1
-#fi
+NEGATIVE_MSG="PostgreSQL \033[31;7minot syncronized\033[0m with Oracle."
+POSITIVE_MSG="PostgreSQL \033[32;7msyncronized\033[0m with Oracle."
 
 PSQL=/usr/bin/psql
 
 DB_NAME=e1gwis
 PGRES_SCHEMA=effis
 ORCL_SCHEMA=rdaprd
+GEOM_FIELD="ST_Multi(shape)"
+
 CURRENT_EVOLUTION_SEQ_ID=effis.current_burnt_area_evolution_id_seq
 
-declare -a DB_HOSTS=( "h05-srv-dbp96.jrc.it" "pgsql96-srv1.jrc.org" )
-declare -a PGRES_TABLES=("current_burnt_area" "current_burnt_area_evolution")
-declare -a GEOM_FIELDS=("ST_Transform(ST_SetSRID(shape,3035),4326)" "shape")
+declare -a DB_HOSTS=( " pgsql96-srv1.jrc.org" )
+declare -a PGRES_TABLES=( "current_burnt_area" "current_burnt_area_evolution" )
+declare -a ORCL_TABLES=( "current_burntareaspoly" "current_firesevolution" )
 
-if [[ $server == "i" ]]; then
-    DB_HOST=${DB_HOSTS[0]}
-    DB_USER=e1gwis
-    echo $DB_HOST $DB_USER
-elif [[ $server == "e" ]]; then
-    DB_HOST=${DB_HOSTS[1]}
-    DB_USER=e1gwis
-    echo $DB_HOST $DB_USER
-else
-    DB_HOST=${DB_HOSTS[1]}
-    DB_USER=e1gwis
-    echo $DB_HOST $DB_USER
-fi
-
-if [[ $server == "i" ]]; then
-    declare -a ORCL_TABLES=("rob_burntareas" "rob_firesevolution")
-    GEOM_FIELD=${GEOM_FIELDS[0]}	
-else
-    declare -a ORCL_TABLES=("current_burntareaspoly" "current_firesevolution")
-    GEOM_FIELD=${GEOM_FIELDS[1]}	
-fi
-
+DB_HOST=${DB_HOSTS[0]}
+DB_USER=e1gwis
+DB_PWD=ka4Zie4i
 RUN_ON_DB="$PSQL -X -U $DB_USER -h $DB_HOST -d $DB_NAME -P t --set ON_ERROR_STOP=on --set AUTOCOMMIT=off"
 
-num_rec_current_orcl=$($RUN_ON_DB -c "SELECT COUNT(id) FROM $ORCL_SCHEMA.${ORCL_TABLES[0]};")
-num_rec_current_pgres=$($RUN_ON_DB -c "SELECT COUNT(ba_id) FROM $PGRES_SCHEMA.${PGRES_TABLES[0]};")
+function check_record() {
+   num_rec_current_orcl=$($RUN_ON_DB -c "SELECT COUNT(id) FROM $ORCL_SCHEMA.${ORCL_TABLES[0]};")
+   num_rec_current_pgres=$($RUN_ON_DB -c "SELECT COUNT(ba_id) FROM $PGRES_SCHEMA.${PGRES_TABLES[0]};")
+   if [ $num_rec_current_orcl != $num_rec_current_pgres ]; then
+      recSync=false      
+   else
+      recSync=true
+   fi
+}
+
+function check_area() {
+   sum_area_ha_current_orcl=$($RUN_ON_DB -c "SELECT SUM(area_ha) FROM $ORCL_SCHEMA.${ORCL_TABLES[0]};")
+   sum_area_ha_current_pgres=$($RUN_ON_DB -c "SELECT SUM(area_ha) FROM $PGRES_SCHEMA.${PGRES_TABLES[0]};")
+   if [ $sum_area_ha_current_orcl != $sum_area_ha_current_pgres ]; then
+      areaSync=false      
+   else
+      areaSync=true
+   fi
+}
+
+function server_stats(){
+
+   printf "Database Server:${DB_HOST} Database User:${DB_USER} 
+         PostgreSQL current BAs table:${PGRES_TABLES[0]} 
+         PostgreSQL evolution BAs table:${PGRES_TABLES[1]}
+         Oracle current BAs table:${ORCL_TABLES[0]} 
+         Oracle evolution BAs table:${ORCL_TABLES[1]}\n\n"
+}
+
+function syncronization_messages(){
+
+	if [[ $recSync ]]; then
+      echo -e "$1 in "$POSITIVE_MSG
+      printf "Oracle="$(echo -e "${num_rec_current_orcl}" | sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${num_rec_current_pgres}" | sed -e 's/^[[:space:]]*//')"\n"
+   else
+      echo -e "$1 in "$NEGATIVE_MSG
+      printf "Oracle="$(echo -e "${num_rec_current_orcl}" | sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${num_rec_current_pgres}" | sed -e 's/^[[:space:]]*//')"\n"
+   fi
+}
 
 COPY_BAS_ORCL_TO_PGRES_SQL=$(cat <<EOF
-    INSERT INTO effis.current_burnt_area 
+  INSERT INTO effis.current_burnt_area 
 	SELECT id,
     	   area_ha,    
            firedate,    
@@ -70,29 +87,30 @@ COPY_BAS_EVOLUTION_ORCL_TO_PGRES_SQL=$(cat <<EOF
     	area_ha,    
     	firedate,    
     	lastupdate,
-    	$GEOM_FIELD
+        $GEOM_FIELD 
     FROM $ORCL_SCHEMA.${ORCL_TABLES[1]};
 EOF
 )
+
 
 RECREATE_ALL_BAS_VIEW=$(cat <<EOF
   BEGIN;
   DROP VIEW IF EXISTS effis.modis_burnt_areas CASCADE;
   CREATE VIEW effis.modis_burnt_areas AS (
               SELECT CASE 
-                WHEN extract(year FROM firedate::DATE) IS NULL THEN '9999_' || archived_and_current.ba_id
-                ELSE extract(year FROM firedate::DATE) || '_' || archived_and_current.ba_id
+                WHEN yearseason IS NULL THEN '9999_' || archived_and_current.ba_id
+                ELSE yearseason || '_' || archived_and_current.ba_id
               END AS global_id,                      
-              archived_and_current.ba_id AS ba_id,
-              archived_and_current.area_ha AS area_ha,
-              archived_and_current.firedate AS firedate,
-              archived_and_current.lastupdate AS lastupdate,
-              archived_and_current.geom As geom
-              FROM ( SELECT ba_id,area_ha,firedate,lastupdate,geom 
-                     FROM effis.current_burnt_area 
-                     UNION 
-                     SELECT ba_id,area_ha,firedate,lastupdate,geom 
-                     FROM effis.archived_burnt_area) AS archived_and_current);   
+                archived_and_current.ba_id AS ba_id,
+                archived_and_current.area_ha AS area_ha,
+                archived_and_current.firedate AS firedate,
+                archived_and_current.lastupdate AS lastupdate,
+                archived_and_current.geom As geom
+              FROM (SELECT ba_id,area_ha,firedate,lastupdate,extract(year from firedate::DATE) as yearseason,geom 
+   FROM effis.current_burnt_area 
+   UNION 
+   SELECT ba_id,area_ha,firedate,lastupdate,yearseason,geom 
+       FROM effis.archived_burnt_area) AS archived_and_current);   
    COMMIT;                    
 EOF
 )
@@ -107,7 +125,7 @@ RECREATE_ALL_BAS_TABLE=$(cat <<EOF
   ALTER TABLE effis.burnt_areas ALTER COLUMN global_id TYPE varchar;
   ALTER TABLE effis.burnt_areas ALTER COLUMN firedate TYPE DATE using to_date(firedate, 'YYYY-MM-DD');
   ALTER TABLE effis.burnt_areas ALTER COLUMN lastupdate TYPE DATE using to_date(lastupdate, 'YYYY-MM-DD');
-
+  
   grant usage on schema effis to e1gwis;
   grant usage on schema effis to e1gwisro;
 
@@ -119,6 +137,10 @@ RECREATE_ALL_BAS_TABLE=$(cat <<EOF
   grant SELECT on all sequences in schema effis to e1gwisro;
   grant execute on all functions in schema effis to e1gwisro;
   
+  grant SELECT on all tables in schema effis to e1gwised;
+  grant SELECT on all sequences in schema effis to e1gwised;
+  grant execute on all functions in schema effis to e1gwised;
+
   CREATE INDEX sidx_burnt_areas
   ON effis.burnt_areas
   USING gist
@@ -143,6 +165,7 @@ REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES=$(cat <<EOF
 
   TRUNCATE effis.fire_environmental_damage_statistic;
   ALTER SEQUENCE effis.fire_environmental_damage_statistic_id_seq RESTART WITH 1;
+  
   INSERT INTO effis.fire_environmental_damage_statistic(ba_id,agricultural_area,artificial_surface,broad_leaved_forest,
                                                         coniferous,mixed,other_land_cover,other_natural_landcover,
                                                         percentage_natura2k,sclerophyllous,transitional)
@@ -156,9 +179,35 @@ REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES=$(cat <<EOF
   COMMIT;                    
 EOF
 )
-if [ $num_rec_current_orcl != $num_rec_current_pgres ]
-then
-  printf "Not Syncronized orcl $num_rec_current_orcl pgres $num_rec_current_pgres \n"
+
+if [[ $server == "c" ]]; then   
+   
+   server_stats 
+   check_record   
+   syncronization_messages "Records "
+   
+   printf "\n"
+   check_area  
+   syncronization_messages "Area "
+
+   exit 1
+else    
+   server_stats
+   check_record
+   check_area  
+
+if [[ $recSync ]] && [[ $areaSync ]]
+then 
+   syncronization_messages "Records "   
+   printf "\n"   
+   syncronization_messages "Area "
+
+   exit 1;
+else
+ 
+   syncronization_messages "Records "   
+   printf "\n"   
+   syncronization_messages "Area "
 
 $RUN_ON_DB <<SQL    
     TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[0]} CASCADE;
@@ -178,13 +227,8 @@ $RUN_ON_DB <<SQL
    $RECREATE_ALL_BAS_TABLE
 SQL
 
-if [[ $1 == 'e' ]]
-then
 $RUN_ON_DB <<SQL
    $REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES
 SQL
 fi
-
-else
-   echo -e "\033[33;7mSyncronized\033[0m"
 fi
