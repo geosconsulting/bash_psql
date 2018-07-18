@@ -3,31 +3,51 @@
 set -e
 set -u
 
+# color for status
 RED='\033[0;1;31m'
 NC='\033[0m'
 
-server=${1-e}
-
-NEGATIVE_MSG="PostgreSQL \033[31;7minot syncronized\033[0m with Oracle."
+# predetermined messages
+NEGATIVE_MSG="PostgreSQL \033[31;7mnot syncronized\033[0m with Oracle."
 POSITIVE_MSG="PostgreSQL \033[32;7msyncronized\033[0m with Oracle."
 
-PSQL=/usr/bin/psql
+script_dir="$( dirname "${BASH_SOURCE[0]}" )"
+method=$(awk -F "=" '/registering_method/ {print $2}' $script_dir/update_parameters.ini)
+awk -F\= '{gsub(/"/,"",$2);print "Content of " $1 " is " $2}' $script_dir/update_parameters.ini
 
-DB_NAME=e1gwis
-PGRES_SCHEMA=effis
-ORCL_SCHEMA=rdaprd
+echo -e "Writing logs on $method - Change update_parameters.ini for other options\n"
+echo -e "Set registering_method eithet to "logfile" or "logdb"\n"
+
+# path to psql
+#PSQL=/usr/bin/psql
+PSQL=$(awk -F "=" '/PSQL/ {print $2}' $script_dir/update_parameters.ini)
+
+# database reference
+#DB_NAME=e1gwis
+DB_NAME=$(awk -F "=" '/DB_NAME/ {print $2}' $script_dir/update_parameters.ini)
+#PGRES_SCHEMA=effis
+PGRES_SCHEMA=$(awk -F "=" '/PGRES_SCHEMA/ {print $2}' $script_dir/update_parameters.ini)
+#ORCL_SCHEMA=rdaprd
+ORCL_SCHEMA=$(awk -F "=" '/ORCL_SCHEMA/ {print $2}' $script_dir/update_parameters.ini)
 GEOM_FIELD="ST_Multi(shape)"
 
 CURRENT_EVOLUTION_SEQ_ID=effis.current_burnt_area_evolution_id_seq
 
-declare -a DB_HOSTS=( " pgsql96-srv1.jrc.org" )
+# table names in PostgreSQL and Oracle (some are arrays because it's possible to manage multiple DB instances
+declare -a DB_HOSTS=( "pgsql96-srv1.jrc.org" )
 declare -a PGRES_TABLES=( "current_burnt_area" "current_burnt_area_evolution" )
 declare -a ORCL_TABLES=( "current_burntareaspoly" "current_firesevolution" )
 
 DB_HOST=${DB_HOSTS[0]}
-DB_USER=e1gwis
-DB_PWD=ka4Zie4i
+#DB_USER=e1gwis
+DB_USER=$(awk -F "=" '/DB_USER/ {print $2}' $script_dir/update_parameters.ini)
+#DB_PWD=ka4Zie4i
+DB_PWD=$(awk -F "=" '/DB_PWD/ {print $2}' $script_dir/update_parameters.ini)
+
 RUN_ON_DB="$PSQL -X -U $DB_USER -h $DB_HOST -d $DB_NAME -P t --set ON_ERROR_STOP=on --set AUTOCOMMIT=off"
+
+# if no param provided it will default to e(XTERNAL) database on DMZ
+server=${1-e}
 
 function check_record() {
    num_rec_current_orcl=$($RUN_ON_DB -c "SELECT COUNT(id) FROM $ORCL_SCHEMA.${ORCL_TABLES[0]};")
@@ -51,24 +71,49 @@ function check_area() {
 
 function server_stats(){
 
-   printf "Database Server:${DB_HOST} Database User:${DB_USER} 
-         PostgreSQL current BAs table:${PGRES_TABLES[0]} 
-         PostgreSQL evolution BAs table:${PGRES_TABLES[1]}
-         Oracle current BAs table:${ORCL_TABLES[0]} 
-         Oracle evolution BAs table:${ORCL_TABLES[1]}\n\n"
+   printf "Database Server:${DB_HOST} \nDatabase User:${DB_USER}\n
+\t*** PostgreSQL ***   
+Current BAs table:${PGRES_TABLES[0]} 
+Evolution BAs table:${PGRES_TABLES[1]}
+
+\t*** Oracle ***   
+Current BAs table:${ORCL_TABLES[0]} 
+Evolution BAs table:${ORCL_TABLES[1]}\n\n"
+}
+
+function write_log(){
+	echo "Starting backup to $LOGFILE..."
+	echo -e "`date +"%D:%T"` : $1 syncronized $2 - $3 syncronized $4" >> $LOGFILE 2>&1
 }
 
 function syncronization_messages(){
 
-	if [[ $recSync ]]; then
-      echo -e "$1 in "$POSITIVE_MSG
-      printf "Oracle="$(echo -e "${num_rec_current_orcl}" | sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${num_rec_current_pgres}" | sed -e 's/^[[:space:]]*//')"\n"
+   if [[ "$recSync" = true ]]; then      
+      echo -e "$1in "$POSITIVE_MSG       
+      printf "Oracle="$(echo -e "${num_rec_current_orcl}" | 
+      	      sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${num_rec_current_pgres}" | 
+      	      sed -e 's/^[[:space:]]*//')"\n\n"
+   else            
+      echo -e "$1in "$NEGATIVE_MSG       
+      printf "Oracle="$(echo -e "${num_rec_current_orcl}" | 
+      	      sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${num_rec_current_pgres}" | 
+      	      sed -e 's/^[[:space:]]*//')"\n\n"
+   fi   
+
+   if [[ $areaSync = true ]]; then
+      echo -e "$2in "$POSITIVE_MSG
+      printf "Oracle="$(echo -e "${sum_area_ha_current_orcl}" | 
+      	      sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${sum_area_ha_current_pgres}" | 
+      	      sed -e 's/^[[:space:]]*//')"\n\n"
    else
-      echo -e "$1 in "$NEGATIVE_MSG
-      printf "Oracle="$(echo -e "${num_rec_current_orcl}" | sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${num_rec_current_pgres}" | sed -e 's/^[[:space:]]*//')"\n"
+      echo -e "$2in "$NEGATIVE_MSG
+      printf "Oracle="$(echo -e "${sum_area_ha_current_orcl}" | 
+      	        sed -e 's/^[[:space:]]*//')" Postgres="$(echo -e "${sum_area_ha_current_pgres}" | 
+      	        sed -e 's/^[[:space:]]*//')"\n\n"
    fi
 }
 
+# get current ba areas from oracle to pgres
 COPY_BAS_ORCL_TO_PGRES_SQL=$(cat <<EOF
   INSERT INTO effis.current_burnt_area 
 	SELECT id,
@@ -81,6 +126,7 @@ COPY_BAS_ORCL_TO_PGRES_SQL=$(cat <<EOF
 EOF
 )
 
+# get evolution ba areas from oracle to pgres
 COPY_BAS_EVOLUTION_ORCL_TO_PGRES_SQL=$(cat <<EOF
     INSERT INTO effis.current_burnt_area_evolution(ba_id,area_ha,firedate,lastupdate,geom)
     SELECT id,
@@ -92,7 +138,7 @@ COPY_BAS_EVOLUTION_ORCL_TO_PGRES_SQL=$(cat <<EOF
 EOF
 )
 
-
+# view off all BA's current + historical
 RECREATE_ALL_BAS_VIEW=$(cat <<EOF
   BEGIN;
   DROP VIEW IF EXISTS effis.modis_burnt_areas CASCADE;
@@ -115,6 +161,7 @@ RECREATE_ALL_BAS_VIEW=$(cat <<EOF
 EOF
 )
 
+# table from view off all BA's current + historical
 RECREATE_ALL_BAS_TABLE=$(cat <<EOF
   BEGIN;
 
@@ -160,6 +207,7 @@ RECREATE_ALL_BAS_TABLE=$(cat <<EOF
 EOF
 )
 
+# emission table for each current ba 
 REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES=$(cat <<EOF
   BEGIN;
 
@@ -180,35 +228,58 @@ REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES=$(cat <<EOF
 EOF
 )
 
+# if c is passed only counts records and check area sum otherwise syncronize dbs
 if [[ $server == "c" ]]; then   
-   
    server_stats 
    check_record   
-   syncronization_messages "Records "
+   check_area   
+   syncronization_messages "Records " "Area "
+
+  if [ $method == logfile ]; then   
+
+    echo "Checking directory with stored logs......."
+    dir_logs=$script_dir/update_logs
+
+    find $dir_logs -name 'update_*.log'  -type f -mtime +7 -print -delete #>> $log
+
+    today=$(date +"%m_%d_%Y")
+    LOGFILE=update_logs/update_$today.log
+
+    #check if log directory exists if not create it
+    if [ ! -d $dir_logs ]; then
+      mkdir -p $dir_logs;
+    fi
+
+  elif [ $method = logdb ]; then   
+
+    echo "Writing in PostgreSQL......."  
+
+  questo_momento=$(date +"%Y-%m-%d:%T")
    
-   printf "\n"
-   check_area  
-   syncronization_messages "Area "
+$RUN_ON_DB<<SQL 
+     insert into effis._updates(datetime_update,num_records,area_ha) 
+     values('$questo_momento',$num_rec_current_orcl,$sum_area_ha_current_pgres);
+     commit;
+SQL
+
+  else
+    echo "Changes unlogged"
+  fi
 
    exit 1
 else    
    server_stats
-   check_record
-   check_area  
-
-if [[ $recSync ]] && [[ $areaSync ]]
+   check_record   
+   check_area
+if [[ $recSync = true ]] && [[ $areaSync = true ]]
 then 
-   syncronization_messages "Records "   
-   printf "\n"   
-   syncronization_messages "Area "
-
+   syncronization_messages "Records " "Area "
    exit 1;
 else
- 
-   syncronization_messages "Records "   
-   printf "\n"   
-   syncronization_messages "Area "
+   syncronization_messages "Records " "Area "
+  
 
+# empty tables
 $RUN_ON_DB <<SQL    
     TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[0]} CASCADE;
     TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[1]};	
@@ -216,19 +287,25 @@ $RUN_ON_DB <<SQL
     commit;
 SQL
 
+# copy tables from oracle to emptied tables
 $RUN_ON_DB <<SQL
    $COPY_BAS_ORCL_TO_PGRES_SQL 
    $COPY_BAS_EVOLUTION_ORCL_TO_PGRES_SQL
    commit;
 SQL
 
+# recreate view and table of all bas
 $RUN_ON_DB <<SQL
    $RECREATE_ALL_BAS_VIEW
    $RECREATE_ALL_BAS_TABLE
+   commit;
 SQL
 
+# recreate emission table
 $RUN_ON_DB <<SQL
    $REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES
+   commit;
 SQL
 fi
+   write_log records $recSync area_ha $areaSync
 fi

@@ -6,7 +6,7 @@ set -u
 RED='\033[0;1;31m'
 NC='\033[0m'
 
-server=${1-l}
+server=${1-e}
 
 PSQL=/usr/bin/psql
 
@@ -112,6 +112,22 @@ RECREATE_ALL_BAS_VIEW=$(cat <<EOF
 EOF
 )
 
+#--pg_dump e1gwis -U postgres -n effis -t effis.burnt_areas  | psql -U postgres -d test  
+#, DATE_PART('day',ba_int.lastupdate::DATE) - DATE_PART('day',ba_ext.lastfiredate::DATE) as date_diff,
+#  ba_int.area_ha - ba_ext.area_ha as area_diff
+
+ADD_IMAGELASTDATE_IMAGETIME_TO_ALL_BAS_VIEW=$(cat <<EOF
+  BEGIN;   
+  CREATE VIEW effis.modis_burnt_areas_time AS (
+  SELECT *
+  FROM tmp.modis_burnt_areas_temp ba_int 
+    JOIN (SELECT id AS id_dea,lastfiredate,lastfiretime 
+		  FROM rdaprd.rob_burntareas) AS ba_ext 
+  ON ba_int.ba_id = ba_ext.id_dea);  
+  COMMIT;                    
+EOF
+)
+
 RECREATE_ALL_BAS_TABLE=$(cat <<EOF
   BEGIN;
 
@@ -133,7 +149,7 @@ RECREATE_ALL_BAS_TABLE=$(cat <<EOF
   grant SELECT on all tables in schema effis to e1gwisro;
   grant SELECT on all sequences in schema effis to e1gwisro;
   grant execute on all functions in schema effis to e1gwisro;
-
+  
   grant SELECT on all tables in schema effis to e1gwised;
   grant SELECT on all sequences in schema effis to e1gwised;
   grant execute on all functions in schema effis to e1gwised;
@@ -157,16 +173,76 @@ RECREATE_ALL_BAS_TABLE=$(cat <<EOF
 EOF
 )
 
-#--pg_dump e1gwis -U postgres -n effis -t effis.burnt_areas  | psql -U postgres -d test  
-#, DATE_PART('day',ba_int.lastupdate::DATE) - DATE_PART('day',ba_ext.lastfiredate::DATE) as date_diff,
-#  ba_int.area_ha - ba_ext.area_ha as area_diff
+# DA RISCRIVERE 
+# DA RISCRIVERE 
+# DA RISCRIVERE 
+# DA RISCRIVERE 
+RECREATE_ALL_BAS_TABLE_TIME=$(cat <<EOF
+  BEGIN;
 
-ADD_IMAGELASTDATE_IMAGETIME_TO_ALL_BAS_TABLE_LOCALMACHINE=$(cat <<EOF
-  BEGIN;  
-  select *
-  from effis.burnt_areas ba_int 
-    join (select id as id_dea,lastfiredate,lastfiretime,area_ha from rdaprd.rob_burntareas) as ba_ext 
-  on ba_int.ba_id = ba_ext.id_dea;  
+  DROP TABLE IF EXISTS effis.burnt_areas_time CASCADE;
+  CREATE TABLE effis.burnt_areas_time AS SELECT * FROM effis.modis_burnt_areas;
+  ALTER TABLE effis.burnt_areas ADD PRIMARY KEY(global_id);
+
+  ALTER TABLE effis.burnt_areas ALTER COLUMN global_id TYPE varchar;
+  ALTER TABLE effis.burnt_areas ALTER COLUMN firedate TYPE DATE using to_date(firedate, 'YYYY-MM-DD');
+  ALTER TABLE effis.burnt_areas ALTER COLUMN lastupdate TYPE DATE using to_date(lastupdate, 'YYYY-MM-DD');
+  
+  grant usage on schema effis to e1gwis;
+  grant usage on schema effis to e1gwisro;
+
+  grant all on all tables in schema effis to e1gwis;
+  grant all on all sequences in schema effis to e1gwis;
+  grant all on all functions in schema effis to e1gwis;
+
+  grant SELECT on all tables in schema effis to e1gwisro;
+  grant SELECT on all sequences in schema effis to e1gwisro;
+  grant execute on all functions in schema effis to e1gwisro;
+  
+  grant SELECT on all tables in schema effis to e1gwised;
+  grant SELECT on all sequences in schema effis to e1gwised;
+  grant execute on all functions in schema effis to e1gwised;
+
+  CREATE INDEX sidx_burnt_areas
+  ON effis.burnt_areas
+  USING gist
+  (geom);
+
+  CREATE INDEX idx_burnt_areas_firedate
+  ON effis.burnt_areas
+  USING btree
+  (firedate);
+
+  CREATE INDEX idx_burnt_areas_lastupdate
+  ON effis.burnt_areas
+  USING btree
+  (lastupdate);
+
+  COMMIT;                    
+EOF
+)
+# DA RISCRIVERE 
+# DA RISCRIVERE 
+# DA RISCRIVERE 
+# DA RISCRIVERE 
+
+
+REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES=$(cat <<EOF
+  BEGIN;
+
+  TRUNCATE effis.fire_environmental_damage_statistic;
+  ALTER SEQUENCE effis.fire_environmental_damage_statistic_id_seq RESTART WITH 1;
+  
+  INSERT INTO effis.fire_environmental_damage_statistic(ba_id,agricultural_area,artificial_surface,broad_leaved_forest,
+                                                        coniferous,mixed,other_land_cover,other_natural_landcover,
+                                                        percentage_natura2k,sclerophyllous,transitional)
+  SELECT id,agriareas,artifsurf,broadlea,conifer,mixed,otherlc,othernatlc,percna2k,scleroph,transit FROM  rdaprd.current_burntareaspoly;
+
+  TRUNCATE effis.fire_emission_statistic;
+  ALTER SEQUENCE effis.fire_emission_statistic_id_seq RESTART WITH 1;
+  INSERT INTO effis.fire_emission_statistic(ba_id,biomass,ch4,co,co2,ec,nmhc,nox,oc,pm,pm10,pm2_5,voc)
+  SELECT id,biomass,ch4,co,co2,ec,nmhc,nox,oc,pm,pm10,pm2_5,voc from rdaprd.emissions_fires;
+
   COMMIT;                    
 EOF
 )
@@ -177,30 +253,31 @@ if [ $sync = "Unsyncronized" ]
 then
    echo -e "\033[33;7m$sync\033[0m"
 
-#$RUN_ON_DB <<SQL    
-#    TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[0]} CASCADE;
-#    TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[1]};	
-#    ALTER SEQUENCE $CURRENT_EVOLUTION_SEQ_ID RESTART WITH 1;
-#    commit;
-#SQL
+$RUN_ON_DB <<SQL    
+    TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[0]} CASCADE;
+    TRUNCATE $PGRES_SCHEMA.${PGRES_TABLES[1]};	
+    ALTER SEQUENCE $CURRENT_EVOLUTION_SEQ_ID RESTART WITH 1;
+    commit;
+SQL
 
-#$RUN_ON_DB <<SQL
-#   $COPY_BAS_ORCL_TO_PGRES_SQL 
-#   $COPY_BAS_EVOLUTION_ORCL_TO_PGRES_SQL
-#   commit;
-#SQL
+$RUN_ON_DB <<SQL
+   $COPY_BAS_ORCL_TO_PGRES_SQL 
+   $COPY_BAS_EVOLUTION_ORCL_TO_PGRES_SQL
+   commit;
+SQL
 
-#$RUN_ON_DB <<SQL
-#   $RECREATE_ALL_BAS_VIEW
-#   $RECREATE_ALL_BAS_TABLE
-#SQL
+$RUN_ON_DB <<SQL
+   $RECREATE_ALL_BAS_VIEW
+   $ADD_IMAGELASTDATE_IMAGETIME_TO_ALL_BAS_VIEW
+   $RECREATE_ALL_BAS_TABLE
+SQL
 
 $RUN_ON_DB <<SQL
    $ADD_IMAGELASTDATE_IMAGETIME_TO_ALL_BAS_TABLE_LOCALMACHINE   
 SQL
 
-
-if [[ $1 == 'e' ]]; then
+if [[ $1 == 'e' ]]
+then
 $RUN_ON_DB <<SQL
    $REGENERATE_EMISSION_ENVIRONMENTAL_DAMAGES_TABLES
 SQL
